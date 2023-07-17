@@ -21,16 +21,16 @@ The output should consist of a single line, which displays the number of possibl
 
 ```python
 def cntWays(s):
-    n = len(s)
-    if n == 0:
+    lenS = len(s)
+    if lenS==0:
         return 1
 
     count = 0
-    for i in range(1, min(3, n+1)):
-        prefix = s[:i]
-        suffix = s[i:]
-        if (prefix[0] != '0' and int(prefix) <= 34):
-            count += cntWays(suffix)
+    for i in range(1, min(3, lenS+1)):
+        current = s[:i]
+        next = s[i:]
+        if (current[0]!='0' and int(current)<=34):
+            count += cntWays(next)
 
     return count
 
