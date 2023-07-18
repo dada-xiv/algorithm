@@ -1,5 +1,4 @@
 /* 
- * 03. Functions
  * Fibonacci sequence generator
  */
 

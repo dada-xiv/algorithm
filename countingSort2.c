@@ -1,3 +1,7 @@
+/*
+ * Counting sort (without cumulative sums)
+ */
+
 #include <stdio.h>
 
 void countingSort(int a[], int n) {

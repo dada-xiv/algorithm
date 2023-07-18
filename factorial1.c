@@ -1,5 +1,5 @@
 /* 
- *  Factorial function n!
+ *  Factorial n!
  */
 
 #include <stdio.h>
