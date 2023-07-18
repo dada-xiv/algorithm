@@ -24,6 +24,8 @@ Selection sort is easy to implement, and there is little that can go wrong with 
 
 There is an important exception to this rule. When sorting files with large records and small keys, the cost of exchanging records determines the running time. In such cases, selection sort requires $O(N)$ time since the number of exchanges is at most $N$.
 
+## Bubble sort
+
 ## Merge sort
 
 When implemented in a general way, merge sort belongs to the stable sorting algorithms and is one of the *divide and conquer* algorithms. The divide and conquer method is a strategy in which a problem is divided into two smaller subproblems, each of which is solved independently, and the results are then combined to solve the original problem. Divide and conquer methods are typically implemented using recursive calls. The specific process of merge sort is as follows:
@@ -96,7 +98,7 @@ void merge(int *a, int left, int mid, int right){
 
 After we sort all the elements by pivots, one of the pivot points `pivotL` or `pivotR` may not have been completely used, so we check if `pivotL <= mid` or `pivotR <= right`. If true, we copy the remaining elements to the sorted array to complete the merge sort process.
 
-The entire code woule be:
+The entire code would be:
 ```c
 #include <stdio.h>
 #define SIZE 9
@@ -161,6 +163,197 @@ The output will be:
 8 10 11 12 15 19 21 23 27 
 ```
 
+### Time complexity of merge sort
+
+
+## Counting sort
+
+The counting sort algorithm is a sorting algorithms which do not require comparisons between values. These types of sorts are known as *non-comparison based* sorts. Instead, the counting sort algorithm sorts the elements of an array by counting the number of *occurrences* of each unique element in the array. The count is stored in an auxiliary array and the sorting is done by mapping the count as an index of the auxiliary array.
+
+Suppose that the given array is `a[] = {2, 2, 3, 5, 1, 3}`. The maximum value of `a[]` is `max = 5`. We initialize an auxiliary array `crr[]` of length `max + 1` with all elements `0`. 
+
+```
+         0  1  2  3  4  5
+crr[] = {0, 0, 0, 0, 0, 0}
+```
+
+This array will be used for storing the counts of the elements in the given array `a[]`. Then we store the count of each element at their respective index in the `crr[]` array.
+
+```
+         0  1  2  3  4  5
+crr[] = {0, 1, 2, 2, 0, 1}
+```
+
+Of course, the total sum of the elements of `crr[]` should be the length of `a[]`. Next, we store cumulative sum of the elements of the count array. This cumulative summed array will be used to place the elements into the correct index of the sorted array.
+
+```
+         0  1  2  3  4  5
+crr[] = {0, 1, 3, 5, 5, 6}
+```
+
+Now we does the actual sorting process. We find the index of each element of the original array in the counted array. This gives the cumulative count. We place the elements at the index calculated as shown below:
+
+
+```
+       v
+a[] = {2, 2, 3, 5, 1, 3}
+
+               v
+         0  1  2  3  4  5
+crr[] = {0, 1, 3, 5, 5, 6}  
+
+The position in the array : 3-1 = 2
+
+       0  1  2  3  4  5 
+a[] = {_, _, 2, _, _, _}
+```
+
+When the element `2` is used, the cummulative number is decreased by 1 for the `2` element in `crr[]`, so that we have `crr[] = {0, 1, 2, 5, 5, 6}` for the next round. Hence even if we have multiple number of elements `2` in the original array, we can sorting them correctly.
+
+```
+          v
+a[] = {2, 2, 3, 5, 1, 3}
+
+               v
+         0  1  2  3  4  5
+crr[] = {0, 1, 2, 5, 5, 6}
+
+The position in the array : 2-1 = 1
+
+       0  1  2  3  4  5 
+a[] = {_, 2, 2, _, _, _}
+```
+
+After this, we have `crr[] = {0, 1, 1, 5, 5, 6}` for the next round. 
+
+```
+             v
+a[] = {2, 2, 3, 5, 1, 3}
+
+                  v
+         0  1  2  3  4  5
+crr[] = {0, 1, 1, 5, 5, 6}
+
+The position in the array : 5-1 = 4
+
+       0  1  2  3  4  5 
+a[] = {_, 2, 2, _, 3, _}
+```
+This procedure will be done until we place each element of `a[]`.
+
+
+The entire code would be:
+```c
+#include <stdio.h>
+
+void countingSort(int a[], int n) {
+    // Creates a list of size max number in the array
+    int max = a[0];
+    for(int i=1;i<n;i++){
+        if(a[i]>max) max = a[i];
+    }
+
+    int crr[max + 1];
+
+    // Initialize count array with all zeros
+    for(int i=0;i<=max;i++){
+        crr[i] = 0;
+    }
+
+    // Store the count of each element
+    for(int i=0;i<n;i++){
+        crr[a[i]]++;
+    }
+
+    // Store the cumulative count of each array
+    for(int i=1;i<=max;i++){
+        crr[i] += crr[i-1];
+    }
+
+    // Sorting phase: Find the index of each element of the original array in count array, and place the elements in output array
+    int result[n];
+    for(int i=0;i<n;i++) {
+        result[crr[a[i]]-1] = a[i];
+        crr[a[i]]--;
+    }
+
+    // Copy the sorted elements into original array
+    for(int i=0;i<n;i++){
+        a[i] = result[i];
+    }
+}
+
+int main() {
+    int n;
+    int c[] = {10, 8, 2, 3, 1, 2, 8, 4, 12, 3, 5, 11, 7, 5};
+
+    n = sizeof(c)/sizeof(c[0]);
+    countingSort(c, n);
+    for (int i=0;i<n;i++) printf("%d ", c[i]);
+    printf("\n");
+
+    return 0;
+}
+```
+The output will be:
+```
+1 2 2 3 3 4 5 5 7 8 8 10 11 12 
+```
+
+Note that if the limit of the maximum number is given, we can simplify further:
+```c
+#include <stdio.h>
+
+#define SIZE 10000 // The limit of maximum number
+
+void countingSort_simple(int a[], int n){
+    int crr[SIZE+1] = {0};
+
+    for(int i=0;i<n;i++){
+        crr[a[i]] += 1;
+    }
+
+    int result[n];
+    int idx = 0;
+    for(int i=1;i<=SIZE;i++){
+        if(crr[i]==0) continue;
+        for(int j=0;j<crr[i];j++){
+            result[idx] = i;
+            idx++;
+        }
+    }
+
+    for(int i=0;i<n;i++){
+        a[i] = result[i];
+    }
+}
+
+int main() {    
+    int c[] = {10, 8, 2, 3, 1, 2, 8, 4, 12, 3, 5, 11, 7, 5};
+
+    int n = sizeof(c)/sizeof(c[0]);
+    countingSort_simple(c, n);
+    for (int i=0;i<n;i++) printf("%d ", c[i]);
+    printf("\n");
+
+    return 0;
+}
+```
+
+
+### Time complexity of countring sort
+
+There are mainly four main loops:
+
+| for-loop | time of counting |
+|----------|------------------|
+| 1st      | $O(\text{max})$  |
+| 2nd      | $O(\text{size})$ |
+| 3rd      | $O(\text{max})$  |
+| 4th      | $O(\text{size})$ |
+
+Hence, the overall complexity is $O(\text{max})+O(\text{size})+O(\text{max})+O(\text{size}) = O(\text{max+size})$. That is, the time complexity is dependent on the maximum value of the given array, denoted as $k$, so the time complexity of counting sort is $O(n+k)$, where $n$ is the size of the given array.
+
 ## Implementing or using sorting algorithms in practice
 
 Examples of $O(N^2)$ sorting algorithms include **bubble sort**, **selection sort**, and **insertion sort**.
@@ -170,3 +363,19 @@ Examples of $O(N^2)$ sorting algorithms include **bubble sort**, **selection sor
 **Quicksort** has a worst-case time complexity of $O(N^2)$. Don't be fooled by the "quick" in the name. While the average time complexity is $O(N\log N)$, the ordinary implementation of quicksort can easily result in a worst-case time complexity of $O(N^2)$. In simple terms, quicksort struggles with already sorted or reverse-sorted inputs. There are ways to mitigate this issue, such as choosing the median of the medians as a pivot, using a different sorting algorithm when the recursion depth increases, or randomly shuffling the input beforehand. However, unless implemented very carefully, the efficiency of quicksort can still be very poor. Therefore, it is generally recommended not to use quicksort for algorithmic problems and to implement it only for practice purposes.
 
 If we want to implement our own sorting algorithm without using built-in functions, merge sort is the easiest to understand and debug. When performing merge sort, it is important not to repeatedly allocate and deallocate the entire size of the array or subarrays each time a merge operation is performed. Allocating memory of size $N$ takes $O(N)$ time, and since merge is called $O(N)$ times, the total time complexity becomes $O(N^2)$. To address this issue, we can preallocate a larger array for copying in advance and only allocate memory equal to the size of the section covered by the merge operation (right - left + 1).
+
+## Comparison of time complexity
+
+Following table shows the time complexities for some of the most commonly used sorting algorithms.
+
+| Sorting algorithm | Average       | Best          | Worst         |
+|-------------------|---------------|---------------|---------------|
+| Selection sort    | $O(n^2)$      | $O(n^2)$      | $O(n^2)$      |
+| Insertion sort    | $O(n^2)$      | $O(n)$        | $O(n^2)$      |
+| Bubble sort       | $O(n^2)$      | $O(n)$        | $O(n^2)$      |
+| Quick sort        | $O(n \ln n)$  | $O(n \ln n)$  | $O(n^2)$      |
+| Bucket sort       | $O(n+k)$      | $O(n+k)$      | $O(n^2)$      |
+| Heap sort         | $O(n \ln n)$  | $O(n \ln n)$  | $O(n \ln n)$  |
+| Merge sort        | $O(n \ln n)$  | $O(n \ln n)$  | $O(n \ln n)$  |
+| Radix sort        | $O(n\cdot k)$ | $O(n\cdot k)$ | $O(n\cdot k)$ |
+| Counting sort     | $O(n+k)$      | $O(n+k)$      | $O(n+k)$      |
