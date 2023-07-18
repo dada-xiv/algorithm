@@ -2,7 +2,7 @@
 
 ## Selection sort
 
-Selection sort is a brute force method and one of the simplest sorting algorithms. It follows the following procedure: Initially, we find the smallest element in the array and exchange it with the element in the first position. Then, we find the second smallest element in the array and exchange it with the element in the second position. This process continues until it is completed.
+Selection sort is a brute force method and one of the simplest sorting algorithms. It follows the following procedure: initially, we find the smallest element in the array and exchange it with the element in the first position. Then, we find the second smallest element in the array and exchange it with the element in the second position. This process continues until it is completed.
 
 ```c
 void selectionSort(int a[], int n){
@@ -25,6 +25,27 @@ Selection sort is easy to implement, and there is little that can go wrong with 
 There is an important exception to this rule. When sorting files with large records and small keys, the cost of exchanging records determines the running time. In such cases, selection sort requires $O(N)$ time since the number of exchanges is at most $N$.
 
 ## Bubble sort
+
+Bubble sort is a sorting algorithm that compares two adjacent elements and swaps them until they are in the intended order.
+
+Suppose we are trying to sort the elements in ascending order. The first round of the iteration goes like this: starting from the first index, compare the first and the second elements. If the first element is greater than the second, then they are swapped. Next, compare the second and the third elements and swap them if they are not in order. The process continues until the last element. As a result, the largest element is placed at the end. In the second round, we compare pairs from the beginning again and continue the comparison to find the second-largest element and place it just before the last element. This process repeats until the array is fully sorted.
+
+```c
+void bubbleSort(int a[], int n){
+    int temp;
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(a[j] > a[j+1]){
+                temp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = temp;
+            }
+        }
+    }
+}
+```
+
+The time complexity of this bubble sort algorithm is $O(n^2)$, where $n$ is the number of elements in the array. The outer loop iterates `n-1` times, as in each iteration, the largest element from the unsorted part of the array "bubbles" up to its correct position at the end. The inner loop iterates `n-i-1` times, where `i` is the current iteration of the outer loop. The inner loop performs pairwise comparisons and swaps adjacent elements if they are out of order. The total number of comparisons and swaps in the worst-case scenario can be calculated as $(n-1) + (n-2) + \cdots + 1$, which is equivalent to $n(n-1)/2$. Therefore the time complexity is $O(n^2)$.
 
 ## Merge sort
 
