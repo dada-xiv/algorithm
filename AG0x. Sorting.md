@@ -5,11 +5,11 @@
 Selection sort is a brute force method and one of the simplest sorting algorithms. It follows the following procedure: Initially, we find the smallest element in the array and exchange it with the element in the first position. Then, we find the second smallest element in the array and exchange it with the element in the second position. This process continues until it is completed.
 
 ```c
-void selectionSort(int *a, int N){
+void selectionSort(int a[], int n){
     int min;
-    for(int i=0;i<N-1;i++){
+    for(int i=0;i<n-1;i++){
         min = a[i];
-        for(int j=i+1;j<N;j++){
+        for(int j=i+1;j<n;j++){
             if(a[j] < min){
                 a[i] = a[j];
                 a[j] = min;
@@ -163,7 +163,13 @@ The output will be:
 8 10 11 12 15 19 21 23 27 
 ```
 
+An advantageous aspect of merge sort is that it is not affected by data distribution. In other words, regardless of the input data, the resulting sorting time is always $O(n \log n)$. When implementing merge sort using an array, an auxiliary array is required. Consequently, if the record size is large, there will be many data movements, resulting in significant time waste. However, if merge sort is implemented using a linked list, only the link indexes are changed, and the data movements become significantly smaller, almost negligible. Additionally, it can be implemented as an in-place sorting algorithm. Therefore, when sorting a large amount of data, merge sort is efficient.
+
 ### Time complexity of merge sort
+
+Suppose the data size is $n = 2^k$. In the division stage, comparison and movement operations are not executed. At the final recursive call, the total number of subarrays of size $1$ is $n$. Since the total size is $n = 2^k$, the depth of the recursive calls (number of merging stages) is $k = \log n$.
+
+When merging two arrays of size $1$, there are $n/2$ pairs of subarrays, and each pair consists of $2$ elements. Hence, we perform $(n/2) \times 2 = n$ comparisons. For the next bottom stage, there are $n/2^2$ pairs of subarrays, and each pair consists of $2^2$ elements, so we need to perform $(n/2^2) \times 2^2 = n$ comparisons. Similarly, for the $k$-th merging stage, there are $n/2^k$ pairs of subarrays, and each pair consists of $2^k$ elements, so we need to perform $(n/2^k) \times 2^k = n$ comparisons. Thus, on each merge stage, $n$ elements are merged. Therefore, for $n$ elements, there will be $n \log 2$ division and merge stages in total. Regardless of the arrangement, the time complexity of merge sort is $O(n \log n)$.
 
 
 ## Counting sort
@@ -340,7 +346,6 @@ int main() {
 }
 ```
 
-
 ### Time complexity of countring sort
 
 There are mainly four main loops:
@@ -364,7 +369,7 @@ Examples of $O(N^2)$ sorting algorithms include **bubble sort**, **selection sor
 
 If we want to implement our own sorting algorithm without using built-in functions, merge sort is the easiest to understand and debug. When performing merge sort, it is important not to repeatedly allocate and deallocate the entire size of the array or subarrays each time a merge operation is performed. Allocating memory of size $N$ takes $O(N)$ time, and since merge is called $O(N)$ times, the total time complexity becomes $O(N^2)$. To address this issue, we can preallocate a larger array for copying in advance and only allocate memory equal to the size of the section covered by the merge operation (right - left + 1).
 
-## Comparison of time complexity
+## Comparison of time complexities
 
 Following table shows the time complexities for some of the most commonly used sorting algorithms.
 
