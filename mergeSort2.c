@@ -10,7 +10,7 @@ void merge(int a[], int left, int mid, int right){
     int k = left;
     int n = right-left+1;
     int sorted[n];
-    for(int i=0;i<n;i++) sorted[i] = 0;
+    //for(int i=0;i<n;i++) sorted[i] = 0;
 
     while(pivotL<=mid && pivotR<=right){
         if(a[pivotL] <= a[pivotR]){
