@@ -186,6 +186,10 @@ The output will be:
 
 An advantageous aspect of merge sort is that it is not affected by data distribution. In other words, regardless of the input data, the resulting sorting time is always $O(n \log n)$. When implementing merge sort using an array, an auxiliary array is required. Consequently, if the record size is large, there will be many data movements, resulting in significant time waste. However, if merge sort is implemented using a linked list, only the link indexes are changed, and the data movements become significantly smaller, almost negligible. Additionally, it can be implemented as an in-place sorting algorithm. Therefore, when sorting a large amount of data, merge sort is efficient.
 
+### Examples
+- [mergeSort1.c](mergeSort1.c) : with global `sorted[]`
+- [mergeSort2.c](mergeSort2.c) : without global `sorted[]`
+
 ### Time complexity of merge sort
 
 Suppose the data size is $n = 2^k$. In the division stage, comparison and movement operations are not executed. At the final recursive call, the total number of subarrays of size $1$ is $n$. Since the total size is $n = 2^k$, the depth of the recursive calls (number of merging stages) is $k = \log n$.
@@ -366,6 +370,11 @@ int main() {
     return 0;
 }
 ```
+
+### Examples
+- [countingSort1.c](countingSort1.c) : with cumulative sums
+- [countingSort2.c](countingSort2.c) : without cumulative sums
+- [countingSort3.c](countingSort3.c) : when the limit of maximum number is given
 
 ### Time complexity of countring sort
 

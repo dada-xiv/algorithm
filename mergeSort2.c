@@ -1,39 +1,45 @@
 /*
- * Selection sort
- * 
+ * Merge sort, without global sorted[]
  */
 
 #include <stdio.h>
-#define SIZE 9
-int sorted[SIZE]; // Global array for sorted result
 
 void merge(int a[], int left, int mid, int right){
     int pivotL = left;
     int pivotR = mid + 1;
     int k = left;
+    int n = right-left+1;
+    int sorted[n];
+    for(int i=0;i<n;i++) sorted[i] = 0;
 
     while(pivotL<=mid && pivotR<=right){
         if(a[pivotL] <= a[pivotR]){
-            sorted[k++] = a[pivotL++];
+            sorted[k-left] = a[pivotL];
+            k++;
+            pivotL++;
         }else{
-            sorted[k++] = a[pivotR++];
+            sorted[k-left] = a[pivotR];
+            k++;
+            pivotR++;
         }
     }
 
     // Copy the remaining elements
-    if(pivotL<=mid){
-        for(int i=pivotL;i<=mid;i++){
-            sorted[k++] = a[i];
-        }
-    }else if(pivotR<=right){
-        for(int i=pivotR;i<=right;i++){
-            sorted[k++] = a[i];
-        }
+    while(pivotL <= mid){
+        sorted[k-left] = a[pivotL];
+        k++;
+        pivotL++;
+    }
+
+    while(pivotR <= right){
+        sorted[k-left] = a[pivotR];
+        k++;
+        pivotR++;
     }
 
     // Copy the sorted result into the array
     for(int i=left;i<=right;i++){
-        a[i] = sorted[i];
+        a[i] = sorted[i-left];
     }
 }
 
@@ -49,12 +55,13 @@ void mergeSort(int a[], int left, int right){
 }
 
 int main(){
-    int N = SIZE;
     int a[] = {23, 8, 15, 19, 11, 27, 10, 12, 21};
+    int n;
+    n = sizeof(a)/sizeof(a[0]);
 
-    mergeSort(a, 0, N-1);
+    mergeSort(a, 0, n-1);
 
-    for(int i;i<N;i++){
+    for(int i;i<n;i++){
         printf("%d ", a[i]);
     }
 
