@@ -7,14 +7,13 @@
 void printFibonacci(int n){
     int a=0, b=1;
     int c;
-    char res;
 
     if(n==1){
         printf("%d", a);
     }else if(n==2){
         printf("%d, %d", a, b);
     }else{
-    printf("%d, %d", a, b);
+        printf("%d, %d", a, b);
         for(int i=2;i<n;i++){
             c = a + b;
             a = b;

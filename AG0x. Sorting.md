@@ -47,6 +47,76 @@ void bubbleSort(int a[], int n){
 
 The time complexity of this bubble sort algorithm is $O(n^2)$, where $n$ is the number of elements in the array. The outer loop iterates `n-1` times, as in each iteration, the largest element from the unsorted part of the array "bubbles" up to its correct position at the end. The inner loop iterates `n-i-1` times, where `i` is the current iteration of the outer loop. The inner loop performs pairwise comparisons and swaps adjacent elements if they are out of order. The total number of comparisons and swaps in the worst-case scenario can be calculated as $(n-1) + (n-2) + \cdots + 1$, which is equivalent to $n(n-1)/2$. Therefore the time complexity is $O(n^2)$.
 
+## Quick sort in `stdlib.h`
+
+`stdlib.h` provides `qsort()` for quick sort. Following is the declaration for `qsort()` function.
+```c
+#include <stdlib.h>
+void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*))
+```
+The parameters are:
+- `base` : the pointer to the first element of the array to be sorted.
+- `nitems` : the number of elements in the array pointed by base.
+- `size` : the size in bytes of each element in the array.
+- `compar` : the function that compares two elements.
+
+The `qsort()` function is used to sort an array or memory block. It takes the address of the array, the number of elements, the size of each element, and a comparison function as arguments. The data types of the elements to be sorted may vary, and several comparison methods can be used. Therefore, we implement a comparison function and pass its memory address (function pointer) as an argument to `qsort()`.
+
+For example, let's implement the comparison function for ascending order. The comparison function should behave as follows:
+- Return a negative value if `a` is less than `b`.
+- Return a positive value if `a` is greater than `b`.
+- Return `0` if `a` is equal to `b`.
+
+When defining the comparison function, it must have an `int` return value and two `const void` pointer parameters. Since we cannot compare values directly with `const void` pointers, we convert the `const void` pointer to the appropriate data type (e.g., `int` pointer) and then dereference it to obtain the value for comparison. Here's an implementation of a comparison function for ascending order:
+```c
+int compare(const void *a, const void *b) {
+    int num1 = *(int *)a; 
+    int num2 = *(int *)b;
+
+    if (num1 < num2) // If 'a' is smaller than 'b', return -1
+        return -1;
+    if (num1 > num2) // If 'a' is greater than 'b', return 1
+        return 1;
+    return 0; // 'a' and 'b' are equal, return 0
+}
+```
+
+Alternatively, we can use a simpler implementation that directly returns the subtraction of the two parameters:
+
+```c
+int compare(const void *a, const void *b) {
+    return *(int *)a - *(int *)b; // For ascending order
+}
+```
+
+In this implementation, the return value does not need to be specifically -1, 1, or 0. It only needs to be 0 when the values are equal and return negative and positive numbers when the values are less than or greater than each other.
+
+Here is a practical use of this `compare()` function to sort an array of integers in ascending order:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return *(int *)a - *(int *)b;
+}
+
+int main() {
+    int arr[] = {9, 17, 13, 9, 11, 12, 10};
+    int len = sizeof(arr) / sizeof(arr[0]);
+
+    qsort(arr, len, sizeof(int), compare);
+
+    for (int i = 0; i < len; i++) {
+        printf("%d ", arr[i]);
+    }
+    return 0;
+}
+```
+Output:
+```
+9 9 10 11 12 13 17 
+```
+
 ## Merge sort
 
 When implemented in a general way, merge sort belongs to the stable sorting algorithms and is one of the *divide and conquer* algorithms. The divide and conquer method is a strategy in which a problem is divided into two smaller subproblems, each of which is solved independently, and the results are then combined to solve the original problem. Divide and conquer methods are typically implemented using recursive calls. The specific process of merge sort is as follows:
