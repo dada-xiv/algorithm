@@ -47,18 +47,18 @@ void bubbleSort(int a[], int n){
 
 The time complexity of this bubble sort algorithm is $O(n^2)$, where $n$ is the number of elements in the array. The outer loop iterates `n-1` times, as in each iteration, the largest element from the unsorted part of the array "bubbles" up to its correct position at the end. The inner loop iterates `n-i-1` times, where `i` is the current iteration of the outer loop. The inner loop performs pairwise comparisons and swaps adjacent elements if they are out of order. The total number of comparisons and swaps in the worst-case scenario can be calculated as $(n-1) + (n-2) + \cdots + 1$, which is equivalent to $n(n-1)/2$. Therefore the time complexity is $O(n^2)$.
 
-## Quick sort in `stdlib.h`
+## Quick sort in C or C++: using `qsort()`
 
-`stdlib.h` provides `qsort()` for quick sort. Following is the declaration for `qsort()` function.
+In C, `stdlib.h` provides `qsort()` for quick sort. In C++, `<cstdlib>` provides `qsort()`. Following is the declaration for `qsort()` function.
 ```c
 #include <stdlib.h>
-void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*))
+void qsort(void *base, size_t nitems, size_t size, int (*compare)(const void *, const void*))
 ```
 The parameters are:
 - `base` : the pointer to the first element of the array to be sorted.
 - `nitems` : the number of elements in the array pointed by base.
 - `size` : the size in bytes of each element in the array.
-- `compar` : the function that compares two elements.
+- `compare` : the function that compares two elements.
 
 The `qsort()` function is used to sort an array or memory block. It takes the address of the array, the number of elements, the size of each element, and a comparison function as arguments. The data types of the elements to be sorted may vary, and several comparison methods can be used. Therefore, we implement a comparison function and pass its memory address (function pointer) as an argument to `qsort()`.
 
@@ -91,7 +91,7 @@ int compare(const void *a, const void *b) {
 
 In this implementation, the return value does not need to be specifically -1, 1, or 0. It only needs to be 0 when the values are equal and return negative and positive numbers when the values are less than or greater than each other.
 
-Here is a practical use of this `compare()` function to sort an array of integers in ascending order:
+Here is a practical use of this `compare()` function to sort an array of integers in ascending order in C:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -112,10 +112,33 @@ int main() {
     return 0;
 }
 ```
+In C++, the same code is as follows:
+```cpp
+#include <iostream>
+#include <cstdlib>
+
+int compare(const void *a, const void *b) {
+    return *(int *)a - *(int *)b;
+}
+
+int main() {
+    int arr[] = {9, 17, 13, 9, 11, 12, 10};
+    int len = sizeof(arr) / sizeof(arr[0]);
+
+    std::qsort(arr, len, sizeof(int), compare);
+
+    for (int i = 0; i < len; i++) {
+        std::cout << arr[i] << " ";
+    }
+    return 0;
+}
+```
 Output:
 ```
 9 9 10 11 12 13 17 
 ```
+
+
 
 ## Merge sort
 
@@ -484,3 +507,36 @@ Following table shows the time complexities for some of the most commonly used s
 | Merge sort        | $O(n \ln n)$  | $O(n \ln n)$  | $O(n \ln n)$  |
 | Radix sort        | $O(n\cdot k)$ | $O(n\cdot k)$ | $O(n\cdot k)$ |
 | Counting sort     | $O(n+k)$      | $O(n+k)$      | $O(n+k)$      |
+
+## Python: Using `.sort()` method for list sorting
+
+In Python, the `.sort()` method is a built-in list method used to sort the elements of a list in ascending order. It modifies the original list in place, meaning that the list is sorted directly without creating a new sorted list.
+
+In CPython (the standard implementation of Python), the `.sort()` method for lists uses a hybrid sorting algorithm that combines elements of **Timsort** and **Insertion Sort**. Timsort is a highly efficient sorting algorithm that is based on merge sort and insertion sort. It was designed to perform well on many kinds of real-world data. The algorithm used in `.sort()` switches between Timsort and Insertion Sort based on the size of the list and the number of elements being sorted. For smaller lists, it falls back to Insertion Sort, which has lower overhead for small collections. For larger lists, it switches to Timsort for its overall superior performance. The complexity of Timsort is $O(n \ln n)$ in the worst case and average case, making it highly efficient for most scenarios.
+
+Here's an example of how to use the `.sort()` method:
+
+```python
+arr = [9, 17, 13, 9, 11, 12, 10]
+arr.sort()
+
+print(arr)
+```
+
+The output will be:
+
+```
+[9, 9, 10, 11, 12, 13, 17]
+```
+
+If we want to sort the list in descending order, we can use the `reverse` argument of the `.sort()` method:
+
+```python
+arr.sort(reverse=True)
+```
+
+If `arr` is a 2D array and we want to sort it based on a specific element, we can use the `key` argument with a `lambda` function:
+```python
+arr.sort(key=lambda x: x[1])
+```
+Here, `key=lambda x: x[1]` implies sorting based on the second element from each entry.
