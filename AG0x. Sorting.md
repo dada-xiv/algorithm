@@ -138,7 +138,82 @@ Output:
 9 9 10 11 12 13 17 
 ```
 
+## In C++: using `sort()`
 
+In C++, `sort()` is a standard algorithm provided by the C++ Standard Library's `<algorithm>` header. It is used to sort elements in a container, such as an array or a `std::vector`, in ascending order by default. We can also specify a custom comparison function to sort elements in a different order.
+
+Here's the prototpyes of the `sort()` function:
+```cpp
+template <class RandomAccessIterator>
+void sort(RandomAccessIterator first, RandomAccessIterator last);
+
+template <class RandomAccessIterator, class Compare>
+void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+```
+
+- `first` and `last` are iterators that define the range of elements to be sorted. The elements between `first` (inclusive) and `last` (exclusive) will be sorted.
+- `comp` is an optional parameter that allows us to specify a custom comparison function for sorting. If not provided, `sort()` will use the default comparison function (operator `<`) to perform the sorting in ascending order.
+
+Usage example:
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> numbers = {5, 2, 8, 1, 3, 6};
+
+    // Sort the vector in ascending order (default)
+    std::sort(numbers.begin(), numbers.end());
+
+    for (const auto& num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+Output:
+```
+1 2 3 5 6 8
+```
+
+If we want to sort elements in descending order or use a custom sorting criteria, we can provide a custom comparison function as the third argument to `sort()`:
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+bool compare(int a, int b) {
+    // Sort in descending order
+    return a > b;
+}
+
+int main() {
+    std::vector<int> numbers = {5, 2, 8, 1, 3, 6};
+
+    // Sort the vector in descending order using compare
+    std::sort(numbers.begin(), numbers.end(), compare);
+
+    for (const auto& num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+Output:
+
+```
+8 6 5 3 2 1
+```
+
+In this example, we use the `customComparator` function to sort the `numbers` vector in descending order. The `sort()` function uses this custom comparison function to determine the order of elements during the sorting process.
 
 ## Merge sort
 
