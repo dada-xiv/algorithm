@@ -146,3 +146,124 @@ Output:
 11
 -1
 ```
+
+## Using `binary_search()` in C++
+
+`std::binary_search()` is a standard algorithm in C++ provided by the C++ Standard Library's `<algorithm>` header. It allows us to perform a binary search on a sorted range of elements. The function checks whether a given value exists in the sorted range and returns a boolean value indicating whether the value is present or not.
+
+Here's the function prototype:
+
+```cpp
+template <class ForwardIterator, class T>
+bool binary_search(ForwardIterator first, ForwardIterator last, const T& value);
+```
+
+- `first` and `last` are iterators defining the range of elements to search through. The range must be sorted in ascending order.
+- `value` is the element that we want to search for in the range.
+
+The function returns `true` if the `value` is found in the range and `false` otherwise.
+
+Usage example:
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+int main() {
+    vector<int> vec = {1, 3, 4, 5, 7, 9, 10, 11, 12, 13, 13, 13, 17, 19, 20};
+    int key;
+    bool isFound;
+
+    key = 12;
+    isFound = binary_search(vec.begin(), vec.end(), key);
+    cout << isFound << endl;
+
+    key = 13;
+    isFound = binary_search(vec.begin(), vec.end(), key);
+    cout << isFound << endl;
+
+    key = 15;
+    isFound = binary_search(vec.begin(), vec.end(), key);
+    cout << isFound << endl;
+
+    return 0;
+}
+```
+Output:
+```
+1
+1
+0
+```
+
+
+## Using `lower_bound()` in C++
+
+If we want to find the index of the key element using `std::binary_search`, we can achieve it by using `std::lower_bound` instead. `lower_bound` is part of the C++ Standard Library's `<algorithm>` header, and uses a binary search algorithm to find the position where an element should be inserted into a sorted range while maintaining the sorted order. 
+
+The prototype of the `std::lower_bound` function is as follows:
+
+```cpp
+template <class ForwardIterator, class T>
+ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last, const T& value);
+```
+
+- `first` and `last` are iterators defining the range of elements to search through. The range must be sorted in ascending order.
+- `value` is the element that you want to find or determine its lower bound in the range.
+
+The function returns an iterator pointing to the first element in the range that is not less than `value`. In other words, it returns an iterator to the lower bound of the `value` in the sorted range. If the `value` is found in the range, `lower_bound` returns an iterator pointing to the first occurrence of the `value`. 
+
+If the `value` is not found, it returns an iterator pointing to the position where the `value` should be inserted in order to maintain the sorted order.
+
+Here's how we can use `std::lower_bound` to find the index of the key element:
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+int main() {
+    vector<int> vec = {1, 3, 4, 5, 7, 9, 10, 11, 12, 13, 13, 13, 17, 19, 20};
+    int key;
+    int index;
+
+    key = 12;
+    auto it = lower_bound(vec.begin(), vec.end(), key);
+    index = distance(vec.begin(), it);
+    if (it != vec.end() && *it == key) {
+        cout << key << " found at index: " << index << endl;
+    } else {
+        cout << key << " not found in the vector. It should be inserted at " << index << endl;
+    }
+
+    key = 13;
+    it = lower_bound(vec.begin(), vec.end(), key);
+    index = distance(vec.begin(), it);
+    if (it != vec.end() && *it == key) {
+        cout << key << " found at index: " << index << endl;
+    } else {
+        cout << key << " not found in the vector. It should be inserted at " << index << endl;
+    }
+
+    key = 15;
+    it = lower_bound(vec.begin(), vec.end(), key);
+    index = distance(vec.begin(), it);
+    if (it != vec.end() && *it == key) {
+        cout << key << " found at index: " << index << endl;
+    } else {
+        cout << key << " not found in the vector. It should be inserted at index: " << index << endl;
+    }
+
+    return 0;
+}
+```
+
+Output:
+
+```
+12 found at index: 8
+13 found at index: 9
+15 not found in the vector. It should be inserted at index: 12
+```
+
+
