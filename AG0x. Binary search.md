@@ -53,7 +53,6 @@ The output:
 
 ## Time complexity of binary search
 
-
 In the algorithm, the array is repeatedly divided into two halves until the target element is found or the search space becomes empty (L > R). At each iteration, the search space is halved, hence the formula for the time complexity of binary search is 
 
 $$T(n) = T(n/2) + c\,,$$
@@ -72,3 +71,78 @@ T(n) & = T(n/2) + c \\
 $$
 
 Therefore the time complexity of the algorithm is $O(\ln n)$, where $n$ is the number of elements in the input array. 
+
+## Using `bsearch()` in C
+
+In C, `stdlib.h` provides `bsearch()` for binary search. Following is the declaration for `bsearch()` function.
+
+```c
+#include <stdlib.h>
+void bsearch (const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *key, const void *element))
+```
+
+The `bsearch()` function performs a binary search of an array of `num` elements, each of `width` bytes. The array must be sorted in ascending order by the function pointed to by `compare`. The `base` is a pointer to the base of the array to search, and `key` is the value being sought.
+
+The `compare` argument is a pointer to a function we must supply that compares two items and returns a value specifying their relationship. The first item in the argument list of the `compare()` function is the pointer to the value of the item that is being searched for. The second item in the argument list of the `compare()` function is a pointer to the array element being compared with the key. The `compare()` function must compare the `key` value with the array element and then return one of the following values:
+
+|Value         |Meaning                   |
+|--------------|--------------------------|
+|Less than 0   |`key` less than element   |
+|0             |`key` identical to element|
+|Greater than 0|`key` greater than element|
+
+The `bsearch()` function returns a pointer to key in the array to which base points. If two keys are equal, the element that key will point to is unspecified. If the `bsearch()` function cannot find the key, it returns `NULL`.
+
+The following code is converting the previous code into the version using `bsearch()`.
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *key, const void *element){
+    int nkey = *(int *)key;
+    int nElement = *(int *)element;
+    if(nkey > nElement) return 1;
+    else if(nkey < nElement) return -1;
+    else return 0;
+}
+
+int main() {
+    int arr[] = {1, 3, 4, 5, 7, 9, 10, 11, 12, 13, 13, 13, 17, 19, 20};
+    int len = sizeof(arr) / sizeof(arr[0]);
+    int *p;
+    int key;
+
+    key = 12;
+    p = (int *)bsearch(&key, arr, len, sizeof(int), compare);
+    if (p != NULL) {
+        printf("%d\n", (int)(p - arr));
+    } else {
+        printf("Key not found.\n");
+    }
+
+    // If duplicate elements are present, it returns one of the indices.
+    key = 13;
+    p = (int *)bsearch(&key, arr, len, sizeof(int), compare);
+    if (p != NULL) {
+        printf("%d\n", (int)(p - arr));
+    } else {
+        printf("Key not found.\n");
+    }
+
+    key = 15;
+    p = (int *)bsearch(&key, arr, len, sizeof(int), compare);
+    if (p != NULL) {
+        printf("%d\n", (int)(p - arr));
+    } else {
+        printf("Key not found.\n");
+    }
+    
+    return 0;
+}
+``` 
+Output:
+```
+8
+11
+-1
+```
