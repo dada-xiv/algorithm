@@ -9,7 +9,7 @@ int main() {
 
     key = 12;
     auto it = lower_bound(vec.begin(), vec.end(), key);
-    index = distance(vec.begin(), it);
+    index = distance(vec.begin(), it); // lower_bound(v.begin(), v.end(), key) - v.begin()
     if (it != vec.end() && *it == key) {
         cout << key << " found at index: " << index << endl;
     } else {
