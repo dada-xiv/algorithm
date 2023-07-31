@@ -1,5 +1,83 @@
 # Dynamic programming
 
+## Problem: combination (binomial coefficient)
+
+In C, the `int` data type can handle up to 12!, and the `long long int` data type can handle up to 20!. Therefore, to implement the binomial coefficient, we use the following recursive formula:
+
+$$ {}_n \mathrm{C}_r = {}_{n-1}\mathrm{C}_{r-1} + {}_{n-1}\mathrm{C}_r $$
+
+This allows us to calculate the binomial coefficient efficiently and avoid overflow issues. We can use dynamic programming to implement the binomial coefficient, as shown in the following code:
+```c
+int Binomial1(int n, int r){
+    int C[n+1][r+1];
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=i&&j<=r;j++){
+            if(j==0||j==i){
+                C[i][j] = 1;
+                printf("C[%d][%d] = %d\n", i, j, C[i][j]);
+            }else{
+                C[i][j] = C[i-1][j-1] + C[i-1][j];
+                printf("C[%d][%d] = C[%d][%d]+C[%d][%d]= %d + %d\n", i, j, i-1, j-1, i-1, j, C[i-1][j-1], C[i-1][j]);
+            }
+        }
+    }
+    return C[n][r];
+}
+```
+When calling the function with
+```c
+printf("%d\n", Binomial1(5, 2));
+```
+the output is as follows:
+```
+C[0][0] = 1
+C[1][0] = 1
+C[1][1] = 1
+C[2][0] = 1
+C[2][1] = C[1][0]+C[1][1]= 1 + 1
+C[2][2] = 1
+C[3][0] = 1
+C[3][1] = C[2][0]+C[2][1]= 1 + 2
+C[3][2] = C[2][1]+C[2][2]= 2 + 1
+C[4][0] = 1
+C[4][1] = C[3][0]+C[3][1]= 1 + 3
+C[4][2] = C[3][1]+C[3][2]= 3 + 3
+C[5][0] = 1
+C[5][1] = C[4][0]+C[4][1]= 1 + 4
+C[5][2] = C[4][1]+C[4][2]= 4 + 6
+10
+```
+
+The entire code would be:
+```C
+#include <stdio.h>
+
+int Binomial(int n, int r){
+    int C[n+1][r+1];
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=i&&j<=r;j++){
+            if(j==0||j==i){
+                C[i][j] = 1;
+            }else{
+                C[i][j] = C[i-1][j-1] + C[i-1][j];
+            }
+        }
+    }
+    return C[n][r];
+}
+
+int main(){
+    printf("%d\n", Binomial1(5, 2));
+    printf("%d\n", Binomial1(29, 13));
+    return 0;
+}
+```
+Output:
+```
+10
+67863915
+```
+
 ## Problem
 The task is to write a program that calculates the number of possible card arrangements given a sequence of numbers ranging from 1 to 34. Each card can be arranged in any order. For example, for the sequence 1253011, there are six possible arrangements:
 ```
