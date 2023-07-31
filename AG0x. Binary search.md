@@ -51,6 +51,11 @@ The output:
 -1
 ```
 
+### Examples
+- [binarySearch.c](binarySearch.c)
+- [binarySearch.cpp](binarySearch.cpp)
+- [binarySearch.py](binarySearch.py)
+
 ## Time complexity of binary search
 
 In the algorithm, the array is repeatedly divided into two halves until the target element is found or the search space becomes empty (L > R). At each iteration, the search space is halved, hence the formula for the time complexity of binary search is 
@@ -71,6 +76,15 @@ T(n) & = T(n/2) + c \\
 $$
 
 Therefore the time complexity of the algorithm is $O(\ln n)$, where $n$ is the number of elements in the input array. 
+
+## Search, insert, and delete in an sorted array
+
+In a sorted array, a search operation can be performed for the possible position of the given element by using binary search, and then an insert operation is performed followed by shifting the elements. However, finding an element in a vector or list, erasing it, and shifting back elements one by one all have a time complexity of O(n). Consequently, the overall execution time becomes O(n^2), which could lead to a time limit error.
+
+Instead, it is recommended to use a hash map or a hashed data structure like a Python dictionary. With a hash map, the average time complexity for insertion, deletion, and retrieval operations is O(1), making it much more efficient than using a vector or list in this scenario.
+
+### Examples
+- [insertDeleteSorted.py](insertDeleteSorted.py) - not a good implementation
 
 ## Using `bsearch()` in C
 
