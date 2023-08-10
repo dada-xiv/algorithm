@@ -4,6 +4,7 @@
 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597
 
 n = 10이면 피보나치 수는 55이다.
+n = 40이면 피보나치 수는 102334155이다.
 '''
 
 def getFibonacci(n):
@@ -22,3 +23,4 @@ def getFibonacci(n):
         return a + b
 
 print(getFibonacci(10))
+print(getFibonacci(40))
