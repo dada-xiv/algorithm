@@ -11,7 +11,7 @@
 
 import math
 
-def is_prime(n):
+def isPrime(n):
   if n < 2:
     return False
   sqrt_n = int(math.sqrt(n))
@@ -21,11 +21,11 @@ def is_prime(n):
   return True
 
 N = int(input())
-count = 0
+cnt = 0
 
-for _ in range(N):
-  num = int(input())
-  if is_prime(num):
-    count += 1
+num = list(map(int, input().split()))
+for i in range(N):
+  if isPrime(num[i]):
+    cnt += 1
 
-print(count)
+print(cnt)
