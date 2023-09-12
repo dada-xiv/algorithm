@@ -4,3 +4,5 @@ def getGCD(m, n):
 		m = n
 		n = r
 	return m
+
+print(getGCD(40, 232))

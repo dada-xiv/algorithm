@@ -1,24 +1,15 @@
-/* 
- *  Euclidean algorithm
- *
- */
 #include <stdio.h>
 
-int main(void){
-	int m, n, r;
-	int nGCD;
-	
-	printf("Enter two numbers : ");
-	scanf("%d %d",&m,&n);
-	
-	while(n!=0){
-		r = m%n;
-		m = n;
-		n = r;
-	}
-	nGCD = m;
-	
-	printf("Greatest common divisor : %d\n",nGCD);
-	
-	return 0;	
+int getGCD(int m, int n) {
+  while (n != 0) {
+    int r = m % n;
+    m = n;
+    n = r;
+  }
+  return m;
+}
+
+int main() {
+  printf("%d\n", getGCD(40, 232));
+  return 0;
 }
