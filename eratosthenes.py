@@ -1,9 +1,6 @@
-n = 20
-sieve = [False]*(n+1)
-
-for i in range(2, n+1):
-  if sieve[i] == False:
-    print(i, end=' ')
-    for j in range(i, n+1, i):
-      if sieve[j] == False:
-        sieve[j] = True
+N = 1000000
+primes = [True for _ in range(N+1)]
+for i in range(2, int((N)**0.5)+1):
+  if primes[i]:
+    for k in range(i+i, N+1, i):
+      primes[k] = False
