@@ -87,3 +87,63 @@ The output is:
 ```
 [[0, 1], [0, 2], [0, 3], [1, 0], [1, 2], [1, 3], [2, 0], [2, 1], [2, 3], [3, 0], [3, 1], [3, 2]]
 ```
+
+## Permutation with repetition
+
+위 코드에서 중복을 방지하는 부분을 제거하면 된다.
+
+```python
+def getRepPerm(arr, n):
+  res = []
+  if n == 0:
+    return [[]]
+  for i in range(len(arr)):
+    for rest in getRepPerm(arr, n-1):
+      res.append([arr[i]]+rest)
+  return res
+
+arr = [1, 2, 3, 4]
+print(getRepPerm(arr, 2))
+```
+The output is:
+```
+[[1, 1], [1, 2], [1, 3], [1, 4], [2, 1], [2, 2], [2, 3], [2, 4], [3, 1], [3, 2], [3, 3], [3, 4], [4, 1], [4, 2], [4, 3], [4, 4]]
+```
+
+출력만을 원하면 다음과 같이 할 수도 있다:
+
+```python
+s = []
+n, m = 4, 2
+
+def getRepPerm():
+  if len(s) == m:
+    print(' '.join(map(str, s)))
+    return
+
+  for i in range(1, n+1):
+    s.append(i)
+    getRepPerm()
+    s.pop()
+
+getRepPerm()
+```
+The output is:
+```
+1 1
+1 2
+1 3
+1 4
+2 1
+2 2
+2 3
+2 4
+3 1
+3 2
+3 3
+3 4
+4 1
+4 2
+4 3
+4 4
+```
