@@ -10,6 +10,8 @@ while start < lenA:
   if sumP < M and end < lenA:
     end += 1
   elif sumP > M or end == lenA:
+    if sumP == M:
+      print("found =", a[start:end])
     start += 1
   elif sumP == M:
     print("found =", a[start:end])
