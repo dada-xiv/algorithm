@@ -122,6 +122,24 @@ Sum = a[9] = 2
 [1, 2, 3, 4, 2, 5, 3, 1, 1, 2]
 Sum = 0
 
+### Examples
+- [twoPointers.py](twoPointers.py)
+```python
+a = [1, 2, 3, 4, 2, 5, 3, 1, 1, 2]
+M = 5
+lenA = len(a)
+start, end = 0, 0
+while start < lenA:
+  sumP = sum(a[start:end])
+  if sumP < M and end < lenA:
+    end += 1
+  elif sumP > M or end == lenA:
+    start += 1
+  elif sumP == M:
+    print("found =", a[start:end])
+    start += 1
+```
+
 # Time complexity
 
 이 알고리즘은 매 루프마다 항상 두 포인터 중 하나는 1씩 증가하고 있고, 각 포인터가 N번 누적 증가해야 알고리즘이 끝난다. 따라서 각각 배열 끝에 다다르는데 O(N)이라서 합쳐도 O(N)이 된다.
