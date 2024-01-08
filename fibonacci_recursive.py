@@ -7,11 +7,11 @@ n = 10이면 피보나치 수는 55이다.
 '''
 
 def getFibonacci(n):
-    if n == 0:
-        return 0
-    elif n == 1:
-        return 1
-    else:
-        return getFibonacci(n - 1) + getFibonacci(n - 2)
+  if n == 0:
+    return 0
+  elif n == 1:
+    return 1
+  else:
+    return getFibonacci(n - 1) + getFibonacci(n - 2)
 
 print(getFibonacci(10))

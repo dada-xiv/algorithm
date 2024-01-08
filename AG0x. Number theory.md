@@ -1,3 +1,44 @@
+# Fibonacci 수
+
+피보나치 수는 0과 1로 시작한다. 0번째 피보나치 수는 0이고, 1번째 피보나치 수는 1이다. 그 다음 2번째 부터는 바로 앞 두 피보나치 수의 합이 된다.
+
+이를 식으로 써보면 
+```
+Fn = Fn-1 + Fn-2 (n ≥ 2)
+```
+가 된다.
+
+n=17일때 까지 피보나치 수를 써보면 다음과 같다.
+
+```
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597
+```
+
+Fibonacci 수 재귀호출 의사 코드는 다음과 같다: 
+```
+fib(n) {
+    if (n = 1 or n = 2)
+    then return 1;
+    else return (fib(n - 1) + fib(n - 2));
+}
+```
+
+Fibonacci 수 동적 프로그래밍 의사 코드는 다음과 같다: 
+```
+fibonacci(n) {
+    f[1] <- f[2] <- 1;
+    for i <- 3 to n
+        f[i] <- f[i - 1] + f[i - 2];
+    return f[n];
+}
+```
+
+## Examples
+- [fibonacci.c](fibonacci.c)
+- [fibonacci.py](fibonacci.py)
+- [fibonacci_recursive.py](fibonacci_recursive.py)
+- [fibonacci_dp.py](fibonacci_dp.py)
+
 # 소인수분해 알고리즘
 n = 72
 ```
