@@ -33,6 +33,14 @@ fibonacci(n) {
 }
 ```
 
+## Pisano period
+
+1960년, IBM의 직원 Donald Wall은 피보나치 수열을 m으로 나눈 나머지가 주기를 이룬다는 것을 증명했다. 피사노 주기(Pisano period)는 피보나치 수를 K로 나눈 나머지는 항상 주기를 갖게된다는 원리이다.
+
+주기의 길이가 P 일 때, N번째 피보나치 수를 M으로 나눈 나머지는 N%P번째 피보나치 수를 M을 나눈 나머지와 같다.
+
+M=10^k 일 때, k > 2 라면, 주기는 항상 15*10^{k-1}이다.
+
 ## Examples
 - [fibonacci.c](fibonacci.c)
 - [fibonacci.py](fibonacci.py)
