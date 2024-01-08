@@ -8,19 +8,18 @@ n = 40이면 피보나치 수는 102334155이다.
 '''
 
 def getFibonacci(n):
-  a = 0
-  b = 1
-
+  f1 = 0
+  f2 = 1
   if n == 0:
-    return a
+    return f1
   elif n == 1:
-    return b
+    return f2
   else:
     for i in range(2, n):
-      c = a + b
-      a = b
-      b = c
-    return a + b
+      f3 = f1 + f2
+      f1 = f2
+      f2 = f3
+    return f1 + f2
 
 print(getFibonacci(10))
 print(getFibonacci(40))
